@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">18190_18343_ProjetoED</string>
+
+    <string-array name="cbDe">
+        <item></item>
+    </string-array>
 </resources>
