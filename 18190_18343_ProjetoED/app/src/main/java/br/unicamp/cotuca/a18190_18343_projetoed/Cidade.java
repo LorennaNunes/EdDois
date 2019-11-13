@@ -1,9 +1,15 @@
 package br.unicamp.cotuca.a18190_18343_projetoed;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
 public class Cidade {
     int indiceCidade;
     String nomeCidade;
     float coordenadaX, coordenadaY;
+
 
 
     //declaraão e instânciação das constantes para a leitura do arquivo
@@ -19,10 +25,10 @@ public class Cidade {
 
 
     public Cidade(int indice, String nome, float cX, float cY) {
-        this.indiceCidade = indice;
-        this.nomeCidade = nome;
-        this.coordenadaX = cX;
-        this.coordenadaY = cY;
+        setIndiceCidade(indice);
+        setNomeCidade(nome);
+        setCoordenadaX(cX);
+        setCoordenadaY(cY);
     }
 
     //construtor que recebe como parametro a linha do arquivo
@@ -63,4 +69,23 @@ public class Cidade {
     }
 
 
+    /*
+    public void CriarAdjacencias(){
+
+
+
+        try {
+            FileInputStream stream = new FileInputStream("GrafoTremEspanhaPortugal.txt");
+            InputStreamReader reader = new InputStreamReader(stream);
+            BufferedReader br = new BufferedReader(reader);
+            linha = br.readLine();
+            while (linha != null) {
+
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }*/
 }

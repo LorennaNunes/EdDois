@@ -2,6 +2,10 @@
     <string name="app_name">18190_18343_ProjetoED</string>
 
     <string-array name="cbDe">
-        <item></item>
+        <item>Selecione</item>
+    </string-array>
+
+    <string-array name="cbPara">
+        <item>Selecione</item>
     </string-array>
 </resources>
