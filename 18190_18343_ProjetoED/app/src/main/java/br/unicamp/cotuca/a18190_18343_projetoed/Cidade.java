@@ -67,25 +67,4 @@ public class Cidade {
     public void setCoordenadaY(float coordenadaY) {
         this.coordenadaY = coordenadaY;
     }
-
-
-    /*
-    public void CriarAdjacencias(){
-
-
-
-        try {
-            FileInputStream stream = new FileInputStream("GrafoTremEspanhaPortugal.txt");
-            InputStreamReader reader = new InputStreamReader(stream);
-            BufferedReader br = new BufferedReader(reader);
-            linha = br.readLine();
-            while (linha != null) {
-
-            }
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-
-    }*/
 }

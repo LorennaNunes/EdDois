@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnBuscar, btnNovaCidade, btnNovoCaminho;
     Cidade cidade;
     ArrayList<Cidade> listaCidades;
+    ArrayList<String> nomesCidades;
     Spinner spinnerDe;
     Spinner spinnerPara;
 
@@ -33,23 +34,22 @@ public class MainActivity extends AppCompatActivity {
         spinnerDe = (Spinner) findViewById(R.id.spinnerDe);
         spinnerPara = (Spinner) findViewById(R.id.spinnerPara);
 
-        listaCidades = Cidades();
+
+        listaCidades = new ArrayList<>();
+        nomesCidades = new ArrayList<>();
+
+
+        nomesCidades = Cidades();
+
 
        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.cbDe,android.R.layout.simple_spinner_item);
-        ArrayAdapter<CharSequence> adapter = new  ArrayAdapter(this,android.R.layout.simple_spinner_item, listaCidades);
-       spinnerDe.setAdapter(adapter);
+        ArrayAdapter<String> adapter = new  ArrayAdapter(this,android.R.layout.simple_spinner_item, nomesCidades);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerDe.setAdapter(adapter);
+        spinnerPara.setAdapter(adapter);
     }
 
-    /*
-    public void setSpinnerDe(Spinner spinnerDe) {
-        spinnerDe.setAdapter(listaCidades);
-    }*/
-
-
-
-    //está acessando coisas q n deveriam
-
-    public ArrayList<Cidade> Cidades(){
+    public ArrayList<String> Cidades(){
         int id;
         String nome;
         float distanciaX;
@@ -64,28 +64,29 @@ public class MainActivity extends AppCompatActivity {
         int inicioY = inicioX+tamanhoX;
         int tamanhoY = 5;
 
+        ArrayList<String> ret = new ArrayList<>();
         String linha;
         try {
-            //FileInputStream stream = new FileInputStream(getAssets().);
-            //FileInputStream stream = new FileInputStream("file:///android_asset/Cidades.txt");
-            InputStreamReader reader = new InputStreamReader(getAssets().open("Cidades.txt"));
-            BufferedReader br = new BufferedReader(reader);
+            BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open("Cidades.txt"), "UTF-8"));
             linha = br.readLine();
 
             while (linha != null) {
                 String s = linha.substring(inicioIndice, tamanhoIndice);
                 s = s.trim();
                 id = Integer.parseInt(s);
-                nome = linha.substring(inicioNome, tamanhoNome);
-                s = linha.substring(inicioX, tamanhoX);
-                s = s.trim();
-                distanciaX = Float.parseFloat(s);
-                s =  linha.substring(inicioY,tamanhoY);
-                s = s.trim();
-                distanciaY = Float.parseFloat(s);
+
+                nome = linha.substring(inicioNome, tamanhoNome).trim();
+
+                linha = linha.replace(',','.');
+                String vet[] = linha.substring(inicioX).split(" ");
+
+                distanciaX = Float.parseFloat(vet[0]);
+                distanciaY = Float.parseFloat(vet[1]);
 
                 cidade = new Cidade(id,nome,distanciaX,distanciaY);
                 listaCidades.add(cidade);
+
+                ret.add(cidade.nomeCidade);
 
                 linha = br.readLine();
             }
@@ -93,7 +94,55 @@ public class MainActivity extends AppCompatActivity {
         catch (Exception e){
             e.printStackTrace();
         }
-        return listaCidades;
+        return ret;
     }
 
+/*
+    public ArrayList<String> NomesCidades(){
+        int id;
+        String nome;
+        float distanciaX;
+        float distanciaY;
+
+        int inicioIndice =0;
+        int tamanhoIndice =2;
+        int inicioNome = tamanhoIndice + inicioIndice;
+        int tamanhoNome = 16;
+        int inicioX = inicioNome + tamanhoNome;
+        int tamanhoX =6;
+        int inicioY = inicioX+tamanhoX;
+        int tamanhoY = 5;
+
+        ArrayList<String> ret = new ArrayList<>();
+        String linha;
+        try {
+            //FileInputStream stream = new FileInputStream("Cidades.txt");
+            //FileInputStream stream = new FileInputStream("file:///android_asset/Cidades.txt");
+            BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open("Cidades.txt"), "UTF-8"));
+            linha = br.readLine();
+
+            while (linha != null) {
+                String s = linha.substring(inicioIndice, tamanhoIndice);
+                s = s.trim();
+                id = Integer.parseInt(s);
+
+                nome = linha.substring(inicioNome, tamanhoNome).trim();
+
+                linha = linha.replace(',','.');
+                String vet[] = linha.substring(inicioX).split(" ");
+
+                distanciaX = Float.parseFloat(vet[0]);
+                distanciaY = Float.parseFloat(vet[1]);
+
+                cidade = new Cidade(id,nome,distanciaX,distanciaY);
+                ret.add(cidade.nomeCidade);
+
+                linha = br.readLine();
+            }
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return ret;
+    }*/
 }
