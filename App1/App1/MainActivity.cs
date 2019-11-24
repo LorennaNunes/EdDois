@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using Android.App;
+using Android.Content.Res;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.Design.Widget;
 using Android.Support.V7.App;
+using Android.Util;
 using Android.Views;
 using Android.Widget;
 
@@ -40,6 +42,8 @@ namespace App1
             ArrayAdapter adapter = new ArrayAdapter(this, Android.Resource.Layout.SimpleListItem1, nomesCidades);
             //vincula o adaptador ao controle spinner
             spinnerDe.Adapter = adapter;
+            
+            
 
 
             //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.cbDe,android.R.layout.simple_spinner_item);
@@ -48,7 +52,7 @@ namespace App1
         public List<string> Cidades()
         {
             int id;
-            String nome;
+            string nome;
             double distanciaX;
             double distanciaY;
 
@@ -62,22 +66,26 @@ namespace App1
             int tamanhoY = 5;
 
             List<string> ret = new List<string>();
-            String linha;
+            string linha;
             try
             {
-                StreamReader br = new StreamReader("Cidades.txt");
+
+                AssetManager assets = this.Assets;
+                StreamReader br = new StreamReader(assets.Open("Cidades.txt"));
                 linha = br.ReadLine();
+                btnBuscar.Append(linha);
+                Log.Info("batata", linha);
 
                 while (linha != null)
                 {
-                    String s = linha.Substring(inicioIndice, tamanhoIndice);
+                    string s = linha.Substring(inicioIndice, tamanhoIndice);
                     s = s.Trim();
                     id = Convert.ToInt32(s);
 
                     nome = linha.Substring(inicioNome, tamanhoNome).Trim();
 
                     linha = linha.Replace(',', '.');
-                    String[] vet = linha.Substring(inicioX).Split(" ");
+                    string[] vet = linha.Substring(inicioX).Split(" ");
 
                     distanciaX = Convert.ToDouble(vet[0]);
                     distanciaY = Convert.ToDouble(vet[1]);

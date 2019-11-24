@@ -35,6 +35,7 @@
 			android:layout_height="wrap_content"
 			android:text="Para:"
 			android:textSize="18dp" />
+		
 		<Spinner
 			android:id="@+id/spinnerPara"
 			android:layout_width="150dp"
