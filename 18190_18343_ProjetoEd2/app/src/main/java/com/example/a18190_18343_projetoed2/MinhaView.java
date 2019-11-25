@@ -1,4 +1,4 @@
-package br.unicamp.cotuca.a18190_18343_projetoed;
+package com.example.a18190_18343_projetoed2;
 
 import android.content.Context;
 import android.graphics.Bitmap;

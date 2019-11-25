@@ -1,4 +1,4 @@
-package br.unicamp.cotuca.a18190_18343_projetoed;
+package com.example.a18190_18343_projetoed2;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,12 +11,15 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     Button btnBuscar, btnNovaCidade, btnNovoCaminho;
     Cidade cidade;
+    Caminho caminhos;
     ArrayList<Cidade> listaCidades;
     ArrayList<String> nomesCidades;
     Spinner spinnerDe;
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
         listaCidades = new ArrayList<>();
         nomesCidades = new ArrayList<>();
+        caminhos = new Caminho();
 
 
         nomesCidades = Cidades();
@@ -47,6 +51,14 @@ public class MainActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerDe.setAdapter(adapter);
         spinnerPara.setAdapter(adapter);
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new InputStreamReader(getAssets().open("GrafoTremEspanhaPortugal.txt"), "UTF-8"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        caminhos.CriarAdjacencias(listaCidades, br);
+
     }
 
     public ArrayList<String> Cidades(){
@@ -63,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
         int tamanhoX =6;
         int inicioY = inicioX+tamanhoX;
         int tamanhoY = 5;
+        int adjacencias[][][] = new int[500][500][2];
 
         ArrayList<String> ret = new ArrayList<>();
         String linha;
@@ -95,6 +108,22 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return ret;
+    }
+
+    public void CriarMatriz()
+    {
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open("Cidades.txt"), "UTF-8"));
+            String linha = br.readLine();
+
+            while (linha != null) {
+
+            }
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 /*

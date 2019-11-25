@@ -1,4 +1,5 @@
-package br.unicamp.cotuca.a18190_18343_projetoed;
+package com.example.a18190_18343_projetoed2;
+
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;

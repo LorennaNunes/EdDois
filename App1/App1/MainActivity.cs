@@ -70,11 +70,16 @@ namespace App1
             try
             {
 
+                Log.Info("batata", "a");
+
                 AssetManager assets = this.Assets;
+
+                Log.Info("batata", "b");
                 StreamReader br = new StreamReader(assets.Open("Cidades.txt"));
+
+                Log.Info("batata", "c");
                 linha = br.ReadLine();
                 btnBuscar.Append(linha);
-                Log.Info("batata", linha);
 
                 while (linha != null)
                 {
