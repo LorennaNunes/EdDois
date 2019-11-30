@@ -48,10 +48,6 @@ public class Caminho {
 
             linha = br.readLine();
             while (linha != null) {
-                /*origem = linha.substring(inicioOrigem, tamanhoOrigem).trim();
-                destino = linha.substring(inicioDestino, tamanhoDestino).trim();
-                distancia = Integer.parseInt(linha.substring(inicioDistanciaY, tamanhoDistanciaX).trim());
-                tempo = Integer.parseInt(linha.substring(inicioDistanciaY, tamanhoDistanciaY).trim());*/
                 String s = linha.substring(inicioOrigem, inicioDestino);
                 s = s.trim();
                 origem = s;

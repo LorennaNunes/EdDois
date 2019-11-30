@@ -68,4 +68,10 @@ public class Cidade {
     public void setCoordenadaY(float coordenadaY) {
         this.coordenadaY = coordenadaY;
     }
+
+
+    public int hashCode()
+    {
+
+    }
 }
