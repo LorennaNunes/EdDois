@@ -45,7 +45,7 @@ public class Graph
         }
     }
     private Vertice[] vertices;
-    int[][][] adjacencias;
+    int[][] adjacencias;
     int numVerts;
 
     /// DJIKSTRA
@@ -58,14 +58,13 @@ public class Graph
     public Graph()
     {
         vertices = new Vertice[1000];
-        adjacencias = new int[1000][1000][2];
+        adjacencias = new int[1000][1000];
         numVerts = 0;
         nTree = 0;
 
         for (int j = 0; j < 1000; j++)      // zera toda a matriz
             for (int k = 0; k < 1000; k++) {
-                adjacencias[j][k][0] = infinity; // distância tão grande que não existe
-                adjacencias[j][k][1] = infinity; // distância tão grande que não existe
+                adjacencias[j][k] = infinity; // distância tão grande que não existe
 
             }
 
@@ -80,14 +79,12 @@ public class Graph
 
     public void NovaAresta(int origem, int destino)
     {
-        adjacencias[origem][destino][0] = 1;
-        adjacencias[origem][destino][1] = 1;
+        adjacencias[origem][destino] = 1;
     }
 
-    public void NovaAresta(int origem, int destino, int distancia, int tempo)
+    public void NovaAresta(int origem, int destino, int distancia)
     {
-        adjacencias[origem][destino][0] = distancia;
-        adjacencias[origem][destino][1] = tempo;
+        adjacencias[origem][destino] = distancia;
     }
 
     public void ExibirVertice(int v)
@@ -107,7 +104,7 @@ public class Graph
         {
             has = false;
             for (int col = 0; col < numVerts; col++)
-                if (adjacencias[linha][col][0] != infinity)
+                if (adjacencias[linha][col] != infinity)
                 {
                     has = true;
                     break;
@@ -138,8 +135,7 @@ public class Graph
     {
         if (row != numVerts - 1)
             for (int col = 0; col < length; col++) {
-                adjacencias[row][col][0] =adjacencias[row + 1][col][0];  // desloca para excluir
-                adjacencias[row][col][1] =adjacencias[row + 1][col][1];  // desloca para excluir
+                adjacencias[row][col] =adjacencias[row + 1][col];  // desloca para excluir
 
             }
     }
@@ -147,8 +143,7 @@ public class Graph
     {
         if (col != numVerts - 1)
             for (int row = 0; row < length; row++) {
-                adjacencias[row][col][0] =adjacencias[row][col + 1][0]; // desloca para excluir
-                adjacencias[row][col][1] =adjacencias[row][col + 1][1]; // desloca para excluir
+                adjacencias[row][col] = adjacencias[row][col + 1]; // desloca para excluir
 
             }
     }
@@ -201,7 +196,7 @@ public class Graph
     private int ObterVerticeAdjacenteNaoVisitado(int v)
     {
         for (int j = 0; j <= numVerts - 1; j++)
-            if ((adjacencias[v][j][0] != infinity) && (!vertices[j].isVisited))
+            if ((adjacencias[v][j] != infinity) && (!vertices[j].isVisited))
         return j;
         return -1;
     }
@@ -314,7 +309,7 @@ public class Graph
         {
             // anotamos no vetor percurso a distância entre o inicioDoPercurso e cada vértice
             // se não há ligação direta, o valor da distância será infinity
-            int tempDist = adjacencias[inicioDoPercurso][j][0];
+            int tempDist = adjacencias[inicioDoPercurso][j];
             percurso[j] = new Distance(inicioDoPercurso, tempDist);
         }
 
@@ -360,7 +355,7 @@ public class Graph
             if (!vertices[coluna].isVisited)       // para cada vértice ainda não visitado
             {
                 // acessamos a distância desde o vértice atual (pode ser infinity)
-                int atualAteMargem = adjacencias[verticeAtual][coluna][0];
+                int atualAteMargem = adjacencias[verticeAtual][coluna];
 
                 // calculamos a distância desde inicioDoPercurso passando por vertice atual até
                 // esta saída

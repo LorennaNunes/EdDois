@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> nomesCidades;
     Spinner spinnerDe;
     Spinner spinnerPara;
+    Spinner spinnerEscolha;
     ImageView imgMapa;
     Bitmap bitmapO, workingBitmap, mutableBitmap;
 
@@ -55,11 +56,13 @@ public class MainActivity extends AppCompatActivity {
         btnBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 BuscarCaminho(spinnerDe.getSelectedItem().toString(), spinnerPara.getSelectedItem().toString());
             }
         });
         spinnerDe = (Spinner) findViewById(R.id.spinnerDe);
         spinnerPara = (Spinner) findViewById(R.id.spinnerPara);
+        spinnerEscolha = (Spinner) findViewById(R.id.spinnerE);
 
         imgMapa = findViewById(R.id.imgMapa);
 
@@ -84,19 +87,16 @@ public class MainActivity extends AppCompatActivity {
         Cidades();
 
 
-
+        ArrayList<String> obj = new ArrayList<>();
+        obj.add("Distancia");
+        obj.add("Tempo");
+        ArrayAdapter<String> adapterEscolha = new  ArrayAdapter(this,android.R.layout.simple_spinner_item, obj);
         //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.cbDe,android.R.layout.simple_spinner_item);
         ArrayAdapter<String> adapter = new  ArrayAdapter(this,android.R.layout.simple_spinner_item, nomesCidades);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerDe.setAdapter(adapter);
         spinnerPara.setAdapter(adapter);
-        BufferedReader br = null;
-        try {
-            br = new BufferedReader(new InputStreamReader(getAssets().open("GrafoTremEspanhaPortugal.txt"), "UTF-8"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        caminhos.CriarAdjacencias(listaCidades, br, grafo);
+        spinnerEscolha.setAdapter(adapterEscolha);
     }
 
     public void Cidades(){
@@ -163,6 +163,16 @@ public class MainActivity extends AppCompatActivity {
         }
         else
         {
+            BufferedReader br = null;
+            try {
+                br = new BufferedReader(new InputStreamReader(getAssets().open("GrafoTremEspanhaPortugal.txt"), "UTF-8"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if(spinnerEscolha.getSelectedItemPosition() == 0)
+                caminhos.CriarAdjacencias(listaCidades, br, grafo, true);
+            else
+                caminhos.CriarAdjacencias(listaCidades, br, grafo, false);
             int o = listaCidades.data[(listaCidades.Hash(origem))].getFirst().data.indiceCidade;
             int d = listaCidades.data[(listaCidades.Hash(destino))].getFirst().data.indiceCidade;
             String menorCaminho = grafo.Caminho(o,d,listaDeCaminho);

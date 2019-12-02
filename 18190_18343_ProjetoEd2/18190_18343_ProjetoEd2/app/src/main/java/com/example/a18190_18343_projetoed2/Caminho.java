@@ -30,7 +30,7 @@ public class Caminho {
         qtd=0;
     }
 
-    public void CriarAdjacencias(BucketHash bucket, BufferedReader br, Graph g){
+    public void CriarAdjacencias(BucketHash bucket, BufferedReader br, Graph g, boolean dist){
         int origem;
        // int distancia;
         int destino;
@@ -58,7 +58,11 @@ public class Caminho {
                 s = linha.substring(inicioDistanciaY).trim();
                 s = s.trim();
                 tempo = Integer.parseInt(s);
-                g.NovaAresta(origem, destino, distancia, tempo);
+                if(dist)
+                    g.NovaAresta(origem, destino, distancia);
+                else
+                    g.NovaAresta(origem, destino, tempo);
+
                 linha = br.readLine();
             }
         }

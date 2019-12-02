@@ -46,6 +46,12 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="59dp"
         android:layout_marginTop="-29dp"/>
+    <Spinner
+        android:id="@+id/spinnerE"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="59dp"
+        android:layout_marginTop="0dp"/>
 
     <Button
         android:id="@+id/btnBuscar"
