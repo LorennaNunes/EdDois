@@ -6,7 +6,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class Cidade {
+public class Cidade implements Comparable<Cidade> {
     int indiceCidade;
     String nomeCidade;
     float coordenadaX, coordenadaY;
@@ -69,9 +69,9 @@ public class Cidade {
         this.coordenadaY = coordenadaY;
     }
 
+    @Override
+    public int compareTo(Cidade o) {
 
-    public int hashCode()
-    {
-
+        return this.getNomeCidade().compareTo(o.getNomeCidade());
     }
 }

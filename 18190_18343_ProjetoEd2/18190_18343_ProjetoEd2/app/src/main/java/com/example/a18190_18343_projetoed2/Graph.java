@@ -1,7 +1,10 @@
 package com.example.a18190_18343_projetoed2;
 
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 public class Graph
 {
@@ -17,6 +20,17 @@ public class Graph
         }
     }
 
+    class Time
+    {
+        public int time;
+        public int vertice;
+        public Time(int vp, int d)
+        {
+            time = d;
+            vertice = vp;
+        }
+    }
+
     class Vertice
     {
         public boolean isVisited;
@@ -25,12 +39,11 @@ public class Graph
 
         public Vertice(String label)
         {
-            label = label;
+            this.label = label;
             isVisited = false;
             isActive = true;
         }
     }
-    private final int NUM_VERTICES = 20;
     private Vertice[] vertices;
     int[][][] adjacencias;
     int numVerts;
@@ -44,19 +57,19 @@ public class Graph
 
     public Graph()
     {
-        vertices = new Vertice[NUM_VERTICES];
-        adjacencias = new int[NUM_VERTICES][NUM_VERTICES][2];
+        vertices = new Vertice[1000];
+        adjacencias = new int[1000][1000][2];
         numVerts = 0;
         nTree = 0;
 
-        for (int j = 0; j < NUM_VERTICES; j++)      // zera toda a matriz
-            for (int k = 0; k < NUM_VERTICES; k++) {
+        for (int j = 0; j < 1000; j++)      // zera toda a matriz
+            for (int k = 0; k < 1000; k++) {
                 adjacencias[j][k][0] = infinity; // distância tão grande que não existe
                 adjacencias[j][k][1] = infinity; // distância tão grande que não existe
 
             }
 
-        percurso = new Distance[NUM_VERTICES];
+        percurso = new Distance[1000];
     }
 
     public void NewVertice(String label)
@@ -324,7 +337,8 @@ public class Graph
             AjustarMenorCaminho(lista);
         }
 
-        return ExibirPercursos(inicioDoPercurso, finalDoPercurso, lista);
+        ArrayList<String> x = new ArrayList<>();
+        return ExibirPercursos(inicioDoPercurso, finalDoPercurso, lista, x);
     }
 
     public int ObterMenor()
@@ -377,11 +391,14 @@ public class Graph
 
             //lista.Items.Add(vertices[i].label + "\t" + vertices[i].isVisited +
                     //"\t\t" + dist + "\t" + vertices[percurso[i].vertice].label);
+            Log.d("aj: ", vertices[i].label + "\t" + vertices[i].isVisited +
+                    "\t\t" + dist + "\t" + vertices[percurso[i].vertice].label);
         }
+        Log.d("j: ", "\n\n\n");
         //lista.Items.Add("-----------------------------------------------------");
     }
 
-    public String ExibirPercursos(int inicioDoPercurso, int finalDoPercurso, ListView lista)
+    public String ExibirPercursos(int inicioDoPercurso, int finalDoPercurso, ListView lista, ArrayList<String> x)
     {
         String linha = "", resultado = "";
         for (int j = 0; j < numVerts; j++)
@@ -394,12 +411,12 @@ public class Graph
             String pai = vertices[percurso[j].vertice].label;
             linha += "(" + pai + ") ";
         }
-        /*lista.Items.Add(linha);
-        lista.Items.Add("");
-        lista.Items.Add("");
-        lista.Items.Add("Caminho entre " + vertices[inicioDoPercurso].rotulo +
-                " e " + vertices[finalDoPercurso].rotulo);
-        lista.Items.Add("");*/
+        x.add(linha);
+        x.add("");
+        x.add("");
+        x.add("Caminho entre " + vertices[inicioDoPercurso].label +
+                " e " + vertices[finalDoPercurso].label);
+        x.add("");
 
         int onde = finalDoPercurso;
         Stack<String> pilha = new Stack<String>();
@@ -417,7 +434,7 @@ public class Graph
             try {
                 resultado += pilha.Pop();
                 if (pilha.Size() != 0)
-                    resultado += " --> ";
+                    resultado += "/";
             }
             catch(Exception err){}
         }
@@ -425,7 +442,8 @@ public class Graph
         if ((cont == 1) && (percurso[finalDoPercurso].distance == infinity))
             resultado = "Não há caminho";
         else
-            resultado += " --> " + vertices[finalDoPercurso].label;
+            resultado += "/" + vertices[finalDoPercurso].label;
+        Log.d("Caminho: ", resultado);
         return resultado;
     }
 }
