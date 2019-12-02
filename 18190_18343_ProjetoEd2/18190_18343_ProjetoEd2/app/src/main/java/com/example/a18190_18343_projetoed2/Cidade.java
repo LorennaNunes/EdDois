@@ -1,6 +1,14 @@
 package com.example.a18190_18343_projetoed2;
 
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.Spinner;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
@@ -25,13 +33,20 @@ public class Cidade implements Comparable<Cidade> {
      int tamanhoY = 6;
 
 
-    public Cidade(int indice, String nome, float cX, float cY) {
-        setIndiceCidade(indice);
+    public Cidade(String nome, float cX, float cY) {
+        setIndiceCidade(maiorIndice()+1);
         setNomeCidade(nome);
         setCoordenadaX(cX);
         setCoordenadaY(cY);
     }
 
+    private int maiorIndice(){
+        int indice = -1;
+        while(indice<){
+            indice = ;
+        }
+        return indice;
+    }
     //construtor que recebe como parametro a linha do arquivo
     public Cidade(String l){
        // indiceCidade = Convert.ToInt32(l.Substring(inicioId, tamanhoId));

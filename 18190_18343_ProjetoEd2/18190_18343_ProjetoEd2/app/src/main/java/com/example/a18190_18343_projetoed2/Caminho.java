@@ -26,6 +26,8 @@ public class Caminho {
         qtd = 0;
     }
 
+    //public Caminho(String cidadeOrigem, String cidadeDestino)
+
     public Caminho(){
         qtd=0;
     }
