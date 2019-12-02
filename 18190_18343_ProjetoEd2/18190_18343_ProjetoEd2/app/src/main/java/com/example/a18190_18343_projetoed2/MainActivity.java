@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                 distanciaX = Float.parseFloat(vet[0]);
                 distanciaY = Float.parseFloat(vet[1]);
 
-                cidade = new Cidade(id,nome,distanciaX,distanciaY);
+                cidade = new Cidade(nome,distanciaX,distanciaY);
                 listaCidades.Insert(cidade);
                 grafo.NewVertice(nome);
 
