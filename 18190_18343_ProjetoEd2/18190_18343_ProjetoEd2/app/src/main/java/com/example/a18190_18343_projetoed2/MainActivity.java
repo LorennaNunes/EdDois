@@ -3,6 +3,8 @@ package com.example.a18190_18343_projetoed2;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.usage.NetworkStats;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -13,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -24,11 +27,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     Button btnBuscar, btnNovaCidade, btnNovoCaminho;
-    ListView listaDeCaminho;
+    EditText dist_temp;
     Cidade cidade;
     Caminho caminhos;
     BucketHash listaCidades;
@@ -47,16 +51,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         btnBuscar = (Button)findViewById(R.id.btnBuscar);
         btnNovaCidade = (Button)findViewById(R.id.btnNovaCidade);
         btnNovoCaminho = (Button)findViewById(R.id.btnNovoCaminho);
 
-        listaDeCaminho = findViewById(R.id.lst);
+        /*try {
+            escreverArquivoInterno();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }*/
+
+        dist_temp = (EditText) findViewById(R.id.txtDistTemp);
         btnBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Cidades();
+                mutableBitmap = workingBitmap.copy(Bitmap.Config.ARGB_8888,true);
+                c  = new Canvas(mutableBitmap);
                 BuscarCaminho(spinnerDe.getSelectedItem().toString(), spinnerPara.getSelectedItem().toString());
             }
         });
@@ -97,6 +108,29 @@ public class MainActivity extends AppCompatActivity {
         spinnerDe.setAdapter(adapter);
         spinnerPara.setAdapter(adapter);
         spinnerEscolha.setAdapter(adapterEscolha);
+
+
+        btnNovaCidade.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, TelaCidade.class);
+                Bundle b = new Bundle();
+                b.putSerializable("ultimoIndice", nomesCidades.size() - 1);
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
+        btnNovoCaminho.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MainActivity.this, TelaCaminho.class);
+                Bundle b = new Bundle();
+                b.putSerializable("cidadesNome", nomesCidades);
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
     }
 
     public void Cidades(){
@@ -116,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         int adjacencias[][][] = new int[500][500][2];
         String linha;
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(getAssets().open("Cidades.txt"), "UTF-8"));
+            BufferedReader br = new BufferedReader(new InputStreamReader(openFileInput("Cidades.txt")));
             linha = br.readLine();
 
             while (linha != null) {
@@ -133,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
                 distanciaX = Float.parseFloat(vet[0]);
                 distanciaY = Float.parseFloat(vet[1]);
 
-                cidade = new Cidade(nome,distanciaX,distanciaY);
+                cidade = new Cidade(nome,distanciaX,distanciaY, id);
                 listaCidades.Insert(cidade);
                 grafo.NewVertice(nome);
 
@@ -165,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
         {
             BufferedReader br = null;
             try {
-                br = new BufferedReader(new InputStreamReader(getAssets().open("GrafoTremEspanhaPortugal.txt"), "UTF-8"));
+                br = new BufferedReader(new InputStreamReader(openFileInput("GrafoTremEspanhaPortugal.txt")));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -175,27 +209,72 @@ public class MainActivity extends AppCompatActivity {
                 caminhos.CriarAdjacencias(listaCidades, br, grafo, false);
             int o = listaCidades.data[(listaCidades.Hash(origem))].getFirst().data.indiceCidade;
             int d = listaCidades.data[(listaCidades.Hash(destino))].getFirst().data.indiceCidade;
-            String menorCaminho = grafo.Caminho(o,d,listaDeCaminho);
-            String[] caminhoSeparado = menorCaminho.split("/");
-            int controle = 0;
-            Cidade[] controleDeIndices = new Cidade[2];
-            for(String caminhoMenor : caminhoSeparado)
-            {
-                controleDeIndices[controle] = listaCidades.data[listaCidades.Hash(caminhoMenor)].getFirst().data;
-                controle++;
-                if(controle == 2)
-                {
-                    float inicioX = controleDeIndices[0].coordenadaX;
-                    float inicioY = controleDeIndices[0].coordenadaY;
 
-                    float fimX = controleDeIndices[1].coordenadaX;
-                    float fimY = controleDeIndices[1].coordenadaY;
-                    c.drawLine(inicioX*mutableBitmap.getWidth(), inicioY*mutableBitmap.getHeight(), fimX*mutableBitmap.getWidth(), fimY*mutableBitmap.getHeight(), p);
-                    controleDeIndices[0] = controleDeIndices[1];
-                    controle = 1;
-                }
+            String menorCaminho = grafo.Caminho(o,d);
+            if(menorCaminho.equals("Não há caminho"))
+            {
+                Toast.makeText(this, "Não há caminho!!", Toast.LENGTH_LONG).show();
             }
-            imgMapa.setImageBitmap(mutableBitmap);
+            else {
+                dist_temp.setText("" + grafo.percurso[listaCidades.data[(listaCidades.Hash(destino))].getFirst().data.indiceCidade].distance);
+                String[] caminhoSeparado = menorCaminho.split("/");
+                int controle = 0;
+                Cidade[] controleDeIndices = new Cidade[2];
+                for (String caminhoMenor : caminhoSeparado) {
+
+                    controleDeIndices[controle] = listaCidades.data[listaCidades.Hash(caminhoMenor)].getFirst().data;
+                    controle++;
+                    if (controle == 2) {
+                        float inicioX = controleDeIndices[0].coordenadaX;
+                        float inicioY = controleDeIndices[0].coordenadaY;
+
+                        float fimX = controleDeIndices[1].coordenadaX;
+                        float fimY = controleDeIndices[1].coordenadaY;
+                        c.drawLine(inicioX * mutableBitmap.getWidth(), inicioY * mutableBitmap.getHeight(), fimX * mutableBitmap.getWidth(), fimY * mutableBitmap.getHeight(), p);
+                        controleDeIndices[0] = controleDeIndices[1];
+                        controle = 1;
+                    }
+                }
+                imgMapa.setImageBitmap(mutableBitmap);
+            }
+        }
+    }
+
+    public void escreverArquivoInterno() throws FileNotFoundException {
+        BufferedReader br = null;
+        BufferedReader br2 = null;
+        try {
+
+            OutputStreamWriter writer = new OutputStreamWriter(openFileOutput("GrafoTremEspanhaPortugal.txt", Context.MODE_PRIVATE));
+            String linha;
+            br = new BufferedReader(new InputStreamReader(getAssets().open("GrafoTremEspanhaPortugal.txt"), "UTF-8"));
+
+            linha = br.readLine();
+            String dado = "";
+            while (linha != null) {
+                dado += linha + "\n";
+                linha = br.readLine();
+            }
+
+            writer.write(dado);
+            writer.flush();
+            writer.close();
+            OutputStreamWriter writer2 = new OutputStreamWriter(openFileOutput("Cidades.txt", Context.MODE_PRIVATE));
+            br2 = new BufferedReader(new InputStreamReader(getAssets().open("Cidades.txt"), "UTF-8"));
+            linha = br2.readLine();
+            dado = "";
+            while (linha != null) {
+                dado += linha + "\n";
+                linha = br2.readLine();
+            }
+
+            writer2.write(dado);
+            writer2.flush();
+            writer2.close();
+        }
+        catch(Exception err)
+        {
+
         }
     }
 }

@@ -33,23 +33,11 @@ public class Cidade implements Comparable<Cidade> {
      int tamanhoY = 6;
 
 
-    public Cidade(String nome, float cX, float cY) {
-        setIndiceCidade(maiorIndice()+1);
+    public Cidade(String nome, float cX, float cY, int indice) {
         setNomeCidade(nome);
         setCoordenadaX(cX);
         setCoordenadaY(cY);
-    }
-
-    private int maiorIndice(){
-        int indice = -1;
-        while(indice<){
-            indice = ;
-        }
-        return indice;
-    }
-    //construtor que recebe como parametro a linha do arquivo
-    public Cidade(String l){
-       // indiceCidade = Convert.ToInt32(l.Substring(inicioId, tamanhoId));
+        setIndiceCidade(indice);
     }
 
     public int getIndiceCidade() {

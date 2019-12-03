@@ -47,6 +47,7 @@ public class Graph
     private Vertice[] vertices;
     int[][] adjacencias;
     int numVerts;
+    int finalP;
 
     /// DJIKSTRA
     Distance[] percurso;
@@ -299,7 +300,7 @@ public class Graph
             vertices[j].isVisited = false;
     }
 
-    public String Caminho(int inicioDoPercurso, int finalDoPercurso,  ListView lista)
+    public String Caminho(int inicioDoPercurso, int finalDoPercurso)
     {
         for (int j = 0; j < numVerts; j++)
             vertices[j].isVisited = false;
@@ -329,11 +330,11 @@ public class Graph
 
             // visitamos o vértice com a menor distância desde o inicioDoPercurso
             vertices[verticeAtual].isVisited = true;
-            AjustarMenorCaminho(lista);
+            AjustarMenorCaminho();
         }
 
         ArrayList<String> x = new ArrayList<>();
-        return ExibirPercursos(inicioDoPercurso, finalDoPercurso, lista, x);
+        return ExibirPercursos(inicioDoPercurso, finalDoPercurso, x);
     }
 
     public int ObterMenor()
@@ -349,7 +350,7 @@ public class Graph
         return indiceDaMinima;
     }
 
-    public void AjustarMenorCaminho(ListView lista)
+    public void AjustarMenorCaminho()
     {
         for (int coluna = 0; coluna < numVerts; coluna++)
             if (!vertices[coluna].isVisited)       // para cada vértice ainda não visitado
@@ -369,12 +370,12 @@ public class Graph
                 {
                     percurso[coluna].vertice = verticeAtual;
                     percurso[coluna].distance = doInicioAteMargem;
-                    ExibirTabela(lista);
+                    ExibirTabela();
                 }
             }
     }
 
-    public void ExibirTabela(ListView lista)
+    public void ExibirTabela()
     {
         String dist = "";
         for (int i = 0; i < numVerts; i++)
@@ -393,8 +394,9 @@ public class Graph
         //lista.Items.Add("-----------------------------------------------------");
     }
 
-    public String ExibirPercursos(int inicioDoPercurso, int finalDoPercurso, ListView lista, ArrayList<String> x)
+    public String ExibirPercursos(int inicioDoPercurso, int finalDoPercurso,ArrayList<String> x)
     {
+        finalP = finalDoPercurso;
         String linha = "", resultado = "";
         for (int j = 0; j < numVerts; j++)
         {

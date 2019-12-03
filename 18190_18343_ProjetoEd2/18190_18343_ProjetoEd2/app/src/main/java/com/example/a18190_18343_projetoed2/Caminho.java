@@ -71,6 +71,5 @@ public class Caminho {
         catch (Exception e){
             e.printStackTrace();
         }
-
     }
 }
