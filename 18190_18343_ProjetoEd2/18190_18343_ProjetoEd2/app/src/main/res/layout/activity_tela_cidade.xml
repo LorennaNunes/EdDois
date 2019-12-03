@@ -15,8 +15,14 @@
         android:elevation="10dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
+        <Button
+            android:id="@+id/btnVoltar"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/ic_menu_revert"
+            />
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:text="Nova Cidade"
             android:textColor="@android:color/black"
@@ -64,7 +70,9 @@
         android:ems="10"
         android:inputType="numberDecimal"
         tools:layout_editor_absoluteX="182dp"
-        tools:layout_editor_absoluteY="179dp" />
+        tools:layout_editor_absoluteY="179dp"
+        android:hint= "Ex: 0,111"
+        />
 
     <TextView
         android:id="@+id/txtCordY"
@@ -82,15 +90,16 @@
         android:ems="10"
         android:inputType="numberDecimal"
         tools:layout_editor_absoluteX="181dp"
-        tools:layout_editor_absoluteY="249dp" />
+        tools:layout_editor_absoluteY="249dp"
+        android:hint= "Ex: 0,111"/>
 
-    <Button
-        android:id="@+id/btnAddCidade"
-        android:layout_width="112dp"
-        android:layout_height="56dp"
-        android:text="Adicionar"
-        android:background="#2ADB87"
-        tools:layout_editor_absoluteX="152dp"
-        tools:layout_editor_absoluteY="361dp" />
+        <Button
+            android:id="@+id/btnAddCidade"
+            android:layout_width="112dp"
+            android:layout_height="56dp"
+            android:background="#2ADB87"
+            android:text="Adicionar"
+            tools:layout_editor_absoluteX="152dp"
+            tools:layout_editor_absoluteY="361dp" />
     </LinearLayout>
 </LinearLayout>

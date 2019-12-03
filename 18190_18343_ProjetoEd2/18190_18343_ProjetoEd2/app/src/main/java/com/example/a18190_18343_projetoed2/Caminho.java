@@ -6,6 +6,11 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+/**Classe para objeto do tipo Caminho, onde serão contidos os caminhos entre uma cidade origem e uma cidade destino
+ * @author Lorenna Nunes e Maria Eduarda
+ * @version
+ * @since
+ * */
 public class Caminho {
     int cidadeOrigem;
     int cidadeDestino;
@@ -32,6 +37,8 @@ public class Caminho {
         qtd=0;
     }
 
+    /** Método que cria a matriz de adjacência
+     */
     public void CriarAdjacencias(BucketHash bucket, BufferedReader br, Graph g, boolean dist){
         int origem;
        // int distancia;

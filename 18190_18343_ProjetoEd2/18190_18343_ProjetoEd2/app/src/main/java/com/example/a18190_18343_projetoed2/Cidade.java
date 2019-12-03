@@ -13,26 +13,34 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-
+/**Classe para objeto do tipo Cidade, onde serão contidos as cidades
+ * @author Lorenna Nunes e Maria Eduarda
+ * @version
+ * @since
+ * */
 public class Cidade implements Comparable<Cidade> {
     int indiceCidade;
     String nomeCidade;
     float coordenadaX, coordenadaY;
 
+    //declaração e instânciação das constantes para a leitura do arquivo
+    int inicioIndice =0;
+    int tamanhoIndice =2;
+    int inicioNome = tamanhoIndice + inicioIndice;
+    int tamanhoNome = 16;
+    int inicioX = inicioNome + tamanhoNome;
+    int tamanhoX =5;
 
+    //acho que pode tirar isso
+    int inicioY = inicioX+tamanhoX;
+    int tamanhoY = 6;
 
-    //declaraão e instânciação das constantes para a leitura do arquivo
-
-     int inicioIndice =0;
-     int tamanhoIndice =2;
-     int inicioNome = tamanhoIndice + inicioIndice;
-     int tamanhoNome = 16;
-     int inicioX = inicioNome + tamanhoNome;
-     int tamanhoX =5;
-     int inicioY = inicioX+tamanhoX;
-     int tamanhoY = 6;
-
-
+    /**O construtor Cidade
+     * @param nome nome da cidade
+     * @param cX coordenada do eixo x
+     * @param cY coordenada do eixo y
+     * @param indice indice da cidade
+     * */
     public Cidade(String nome, float cX, float cY, int indice) {
         setNomeCidade(nome);
         setCoordenadaX(cX);
@@ -40,38 +48,51 @@ public class Cidade implements Comparable<Cidade> {
         setIndiceCidade(indice);
     }
 
+    /** Método para retorno do índice da cidade de acordo com o arquivo texto
+     * @return int - número do indice*/
     public int getIndiceCidade() {
         return indiceCidade;
     }
 
+    /** Método para alterar o indice da cidade*/
     public void setIndiceCidade(int indiceCidade) {
         this.indiceCidade = indiceCidade;
     }
 
+    /** Método para retorno do nome da cidade
+     * @return String - nome da cidade*/
     public String getNomeCidade() {
         return nomeCidade;
     }
 
+    /** Método para alterar o nome da cidade*/
     public void setNomeCidade(String nomeCidade) {
         this.nomeCidade = nomeCidade;
     }
 
+    /** Método para retorno do eixo x da cidade
+     * @return float - número da coordenada x*/
     public float getCoordenadaX() {
         return coordenadaX;
     }
 
+    /** Método para alterar a coordenada do eixo x da cidade*/
     public void setCoordenadaX(float coordenadaX) {
         this.coordenadaX = coordenadaX;
     }
 
+    /** Método para retorno do eixo y da cidade
+     * @return float - número da coordenada y*/
     public float getCoordenadaY() {
         return coordenadaY;
     }
 
+    /** Método para alterar a coordenada do eixo y da cidade*/
     public void setCoordenadaY(float coordenadaY) {
         this.coordenadaY = coordenadaY;
     }
 
+    /** Método que compara duas cidades através de seus nomes*/
     @Override
     public int compareTo(Cidade o) {
 

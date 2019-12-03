@@ -14,14 +14,22 @@
         android:background="#2ADB87"
         android:elevation="10dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+
+        <Button
+            android:id="@+id/btnVoltar"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:background="@android:drawable/ic_menu_revert" />
+
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="280dp"
             android:layout_height="wrap_content"
             android:text="Novo Caminho"
             android:textColor="@android:color/black"
             android:textSize="26dp"
             android:gravity="center"
             ></TextView>
+
     </androidx.appcompat.widget.Toolbar>
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,16 +42,17 @@
         android:layout_height="36dp"
         android:text="Origem:"
         android:textSize="22dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
         tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="85dp" />
+        tools:layout_editor_absoluteY="75dp" />
         <Spinner
         android:id="@+id/spinnerDe"
         android:layout_width="200dp"
-
         android:layout_height="wrap_content"
-        android:layout_marginLeft="00dp"
-        android:layout_marginTop="0dp"
-        android:textSize="55dp"
+        android:layout_marginLeft="49dp"
+        android:layout_marginTop="5dp"
+        android:textSize="105dp"
         />
 
     <TextView
@@ -51,30 +60,35 @@
         android:layout_height="26dp"
         android:text="Destino:"
         android:textSize="22dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="162dp" />
         <Spinner
             android:id="@+id/spinnerPara"
             android:layout_width="200dp"
-
             android:layout_height="wrap_content"
-            android:layout_marginLeft="00dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginLeft="49dp"
+            android:layout_marginTop="5dp"
             android:textSize="55dp"
             />
 
-    <TextView
-        android:layout_width="103dp"
-        android:layout_height="32dp"
-        android:text="Distância:"
-        android:textSize="22dp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="232dp" />
+        <TextView
+            android:layout_width="103dp"
+            android:layout_height="32dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="34dp"
+            android:text="Distância:"
+            android:textSize="22dp"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="232dp" />
 
     <EditText
         android:id="@+id/txtDistancia"
         android:layout_width="200dp"
-        android:layout_height="29dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="49dp"
+        android:layout_marginTop="15dp"
         tools:layout_editor_absoluteX="127dp"
         tools:layout_editor_absoluteY="232dp" />
 
@@ -83,21 +97,28 @@
         android:layout_height="28dp"
         android:text="Tempo:"
         android:textSize="22dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="308dp" />
 
     <EditText
         android:id="@+id/txtTempo"
         android:layout_width="200dp"
-        android:layout_height="26dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="49dp"
         tools:layout_editor_absoluteX="127dp"
         tools:layout_editor_absoluteY="310dp" />
-    <Button
-        android:id="@+id/btnAddCaminho"
-        android:layout_width="139dp"
-        android:layout_height="51dp"
-        android:background="#2ADB87"
-        android:text="Adicionar"
-        tools:layout_editor_absoluteX="136dp"
-        tools:layout_editor_absoluteY="414dp" />
+
+        <Button
+            android:id="@+id/btnAddCaminho"
+            android:layout_width="139dp"
+            android:layout_height="51dp"
+            android:background="#2ADB87"
+            android:text="Adicionar"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="80dp"
+            tools:layout_editor_absoluteX="136dp"
+            tools:layout_editor_absoluteY="414dp" />
     </LinearLayout></LinearLayout>

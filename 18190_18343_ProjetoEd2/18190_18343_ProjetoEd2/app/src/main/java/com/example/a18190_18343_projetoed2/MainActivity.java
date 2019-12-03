@@ -54,14 +54,13 @@ public class MainActivity extends AppCompatActivity {
         btnBuscar = (Button)findViewById(R.id.btnBuscar);
         btnNovaCidade = (Button)findViewById(R.id.btnNovaCidade);
         btnNovoCaminho = (Button)findViewById(R.id.btnNovoCaminho);
-
-        /*try {
-            escreverArquivoInterno();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }*/
-
         dist_temp = (EditText) findViewById(R.id.txtDistTemp);
+        spinnerDe = (Spinner) findViewById(R.id.spinnerDe);
+        spinnerPara = (Spinner) findViewById(R.id.spinnerPara);
+        spinnerEscolha = (Spinner) findViewById(R.id.spinnerE);
+        imgMapa = (ImageView) findViewById(R.id.imgMapa);
+
+        //caso o botão para buscar o caminho entre as cidades forem selecionados
         btnBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,11 +70,6 @@ public class MainActivity extends AppCompatActivity {
                 BuscarCaminho(spinnerDe.getSelectedItem().toString(), spinnerPara.getSelectedItem().toString());
             }
         });
-        spinnerDe = (Spinner) findViewById(R.id.spinnerDe);
-        spinnerPara = (Spinner) findViewById(R.id.spinnerPara);
-        spinnerEscolha = (Spinner) findViewById(R.id.spinnerE);
-
-        imgMapa = findViewById(R.id.imgMapa);
 
         BitmapFactory.Options myoptions = new BitmapFactory.Options();
         myoptions.inScaled = true;
@@ -102,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
         obj.add("Distancia");
         obj.add("Tempo");
         ArrayAdapter<String> adapterEscolha = new  ArrayAdapter(this,android.R.layout.simple_spinner_item, obj);
-        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.cbDe,android.R.layout.simple_spinner_item);
         ArrayAdapter<String> adapter = new  ArrayAdapter(this,android.R.layout.simple_spinner_item, nomesCidades);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerDe.setAdapter(adapter);
@@ -110,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         spinnerEscolha.setAdapter(adapterEscolha);
 
 
+        //caso o botão de criar uma nova cidade for selecionado
         btnNovaCidade.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,10 +114,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        //caso o botão de criar um novo caminho for selecionado
         btnNovoCaminho.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent intent = new Intent(MainActivity.this, TelaCaminho.class);
                 Bundle b = new Bundle();
                 b.putSerializable("cidadesNome", nomesCidades);
@@ -134,11 +128,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Cidades(){
-        int id;
         String nome;
         float distanciaX;
         float distanciaY;
-
+        int id;
         int inicioIndice =0;
         int tamanhoIndice =2;
         int inicioNome = tamanhoIndice + inicioIndice;
@@ -150,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
         int adjacencias[][][] = new int[500][500][2];
         String linha;
         try {
+            //leitura do arquivo
             BufferedReader br = new BufferedReader(new InputStreamReader(openFileInput("Cidades.txt")));
             linha = br.readLine();
 
@@ -187,13 +181,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void BuscarCaminho(String origem, String destino)
     {
+        //mas isso não vai dar sempre falso?
         if(origem.equals("") || destino.equals("")) {
-            //avisar
+            Toast.makeText(getApplicationContext(), "Selecione as cidades de origem e de destino", Toast.LENGTH_SHORT).show();
         }
+        //se o usuário tiver escolhido a mesma cidade como origem e destino
         else if(origem.equals(destino))
         {
-            //avisar que selecionou o mesmo destino e origem
-
+            Toast.makeText(getApplicationContext(),"Para haver uma rota as cidades de origem e destino devem ser diferentes", Toast.LENGTH_LONG).show();
         }
         else
         {
@@ -203,10 +198,15 @@ public class MainActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            //caso o usuário escolher o percurso pola distância entre as cidades
             if(spinnerEscolha.getSelectedItemPosition() == 0)
+                //criamos sua matriz de adjacência
                 caminhos.CriarAdjacencias(listaCidades, br, grafo, true);
             else
+                //caso o usuário escolher o percurso pelo tempo entre as cidades
+                //criamos sua matriz de adjacência
                 caminhos.CriarAdjacencias(listaCidades, br, grafo, false);
+
             int o = listaCidades.data[(listaCidades.Hash(origem))].getFirst().data.indiceCidade;
             int d = listaCidades.data[(listaCidades.Hash(destino))].getFirst().data.indiceCidade;
 
@@ -216,7 +216,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "Não há caminho!!", Toast.LENGTH_LONG).show();
             }
             else {
-                dist_temp.setText("" + grafo.percurso[listaCidades.data[(listaCidades.Hash(destino))].getFirst().data.indiceCidade].distance);
+                if(spinnerEscolha.getSelectedItemPosition()==0)
+                    dist_temp.setText("" + "Distância: " + grafo.percurso[listaCidades.data[(listaCidades.Hash(destino))].getFirst().data.indiceCidade].distance + " quilômetros");
+                else
+                    dist_temp.setText("" + "Tempo: " + grafo.percurso[listaCidades.data[(listaCidades.Hash(destino))].getFirst().data.indiceCidade].distance + " minutos");
                 String[] caminhoSeparado = menorCaminho.split("/");
                 int controle = 0;
                 Cidade[] controleDeIndices = new Cidade[2];
