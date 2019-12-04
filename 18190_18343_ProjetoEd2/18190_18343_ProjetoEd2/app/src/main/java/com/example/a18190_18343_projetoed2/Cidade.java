@@ -23,18 +23,6 @@ public class Cidade implements Comparable<Cidade> {
     String nomeCidade;
     float coordenadaX, coordenadaY;
 
-    //declaração e instânciação das constantes para a leitura do arquivo
-    int inicioIndice =0;
-    int tamanhoIndice =2;
-    int inicioNome = tamanhoIndice + inicioIndice;
-    int tamanhoNome = 16;
-    int inicioX = inicioNome + tamanhoNome;
-    int tamanhoX =5;
-
-    //acho que pode tirar isso
-    int inicioY = inicioX+tamanhoX;
-    int tamanhoY = 6;
-
     /**O construtor Cidade
      * @param nome nome da cidade
      * @param cX coordenada do eixo x
@@ -54,7 +42,7 @@ public class Cidade implements Comparable<Cidade> {
         return indiceCidade;
     }
 
-    /** Método para alterar o indice da cidade*/
+    /** Configura o indice da cidade*/
     public void setIndiceCidade(int indiceCidade) {
         this.indiceCidade = indiceCidade;
     }
@@ -65,7 +53,7 @@ public class Cidade implements Comparable<Cidade> {
         return nomeCidade;
     }
 
-    /** Método para alterar o nome da cidade*/
+    /** Configura o nome da cidade*/
     public void setNomeCidade(String nomeCidade) {
         this.nomeCidade = nomeCidade;
     }
@@ -76,7 +64,7 @@ public class Cidade implements Comparable<Cidade> {
         return coordenadaX;
     }
 
-    /** Método para alterar a coordenada do eixo x da cidade*/
+    /** Configura a coordenada do eixo x da cidade*/
     public void setCoordenadaX(float coordenadaX) {
         this.coordenadaX = coordenadaX;
     }
@@ -87,7 +75,7 @@ public class Cidade implements Comparable<Cidade> {
         return coordenadaY;
     }
 
-    /** Método para alterar a coordenada do eixo y da cidade*/
+    /** Configura a coordenada do eixo y da cidade*/
     public void setCoordenadaY(float coordenadaY) {
         this.coordenadaY = coordenadaY;
     }

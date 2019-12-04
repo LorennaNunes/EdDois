@@ -31,8 +31,6 @@ public class Caminho {
         qtd = 0;
     }
 
-    //public Caminho(String cidadeOrigem, String cidadeDestino)
-
     public Caminho(){
         qtd=0;
     }
@@ -68,9 +66,9 @@ public class Caminho {
                 s = s.trim();
                 tempo = Integer.parseInt(s);
                 if(dist)
-                    g.NovaAresta(origem, destino, distancia);
+                    g.newEdge(origem, destino, distancia);
                 else
-                    g.NovaAresta(origem, destino, tempo);
+                    g.newEdge(origem, destino, tempo);
 
                 linha = br.readLine();
             }

@@ -109,7 +109,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, TelaCidade.class);
                 Bundle b = new Bundle();
-                b.putSerializable("ultimoIndice", nomesCidades.size() - 1);
+                b.putSerializable("ultimoIndice", nomesCidades.size());
+                b.putSerializable("cidadesNome", nomesCidades);
                 intent.putExtras(b);
                 startActivity(intent);
             }
@@ -127,26 +128,30 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    /** Método que lê as cidades do arquivo texto e as adiciona em uma lista
+     */
     public void Cidades(){
         String nome;
+        String linha;
         float distanciaX;
         float distanciaY;
         int id;
-        int inicioIndice =0;
-        int tamanhoIndice =2;
-        int inicioNome = tamanhoIndice + inicioIndice;
-        int tamanhoNome = 16;
-        int inicioX = inicioNome + tamanhoNome;
-        int tamanhoX =6;
-        int inicioY = inicioX+tamanhoX;
-        int tamanhoY = 5;
         int adjacencias[][][] = new int[500][500][2];
-        String linha;
+
+        //constantes para a leitura do arquivo
+        final int inicioIndice =0;
+        final int tamanhoIndice =2;
+        final int inicioNome = tamanhoIndice + inicioIndice;
+        final int tamanhoNome = 16;
+        final int inicioX = inicioNome + tamanhoNome;
+
         try {
             //leitura do arquivo
             BufferedReader br = new BufferedReader(new InputStreamReader(openFileInput("Cidades.txt")));
             linha = br.readLine();
 
+            //enquanto houver elementos na linha que está sendo lida
             while (linha != null) {
                 String s = linha.substring(inicioIndice, tamanhoIndice);
                 s = s.trim();
@@ -163,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
 
                 cidade = new Cidade(nome,distanciaX,distanciaY, id);
                 listaCidades.Insert(cidade);
-                grafo.NewVertice(nome);
+                grafo.newVertice(nome);
 
 
                 c.drawCircle(distanciaX*mutableBitmap.getWidth(),distanciaY*mutableBitmap.getHeight(),10,p);
@@ -171,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
-
         catch (Exception e){
             e.printStackTrace();
         }
@@ -210,16 +214,16 @@ public class MainActivity extends AppCompatActivity {
             int o = listaCidades.data[(listaCidades.Hash(origem))].getFirst().data.indiceCidade;
             int d = listaCidades.data[(listaCidades.Hash(destino))].getFirst().data.indiceCidade;
 
-            String menorCaminho = grafo.Caminho(o,d);
+            String menorCaminho = grafo.path(o,d);
             if(menorCaminho.equals("Não há caminho"))
             {
                 Toast.makeText(this, "Não há caminho!!", Toast.LENGTH_LONG).show();
             }
             else {
                 if(spinnerEscolha.getSelectedItemPosition()==0)
-                    dist_temp.setText("" + "Distância: " + grafo.percurso[listaCidades.data[(listaCidades.Hash(destino))].getFirst().data.indiceCidade].distance + " quilômetros");
+                    dist_temp.setText("" + "Distância: " + grafo.percurse[listaCidades.data[(listaCidades.Hash(destino))].getFirst().data.indiceCidade].distance + " quilômetros");
                 else
-                    dist_temp.setText("" + "Tempo: " + grafo.percurso[listaCidades.data[(listaCidades.Hash(destino))].getFirst().data.indiceCidade].distance + " minutos");
+                    dist_temp.setText("" + "Tempo: " + grafo.percurse[listaCidades.data[(listaCidades.Hash(destino))].getFirst().data.indiceCidade].distance + " minutos");
                 String[] caminhoSeparado = menorCaminho.split("/");
                 int controle = 0;
                 Cidade[] controleDeIndices = new Cidade[2];
