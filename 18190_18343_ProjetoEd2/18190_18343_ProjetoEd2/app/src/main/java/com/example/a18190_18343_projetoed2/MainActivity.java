@@ -150,6 +150,13 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, TelaCaminho.class);
                 Bundle b = new Bundle();
                 b.putSerializable("cidadesNome", nomesCidades); // manda os nomes das cidades para adicionar nos Spinner da classe TelaCaminho
+                BufferedReader br = null;
+                try {
+                    br = new BufferedReader(new InputStreamReader(openFileInput("GrafoTremEspanhaPortugal.txt"))); // abre o arquivo do armazenamento interno para leitura
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                caminhos.CriarAdjacencias(listaCidades, br, grafo, caminhosParaAdicionarCaminho,true);
                 b.putSerializable("caminhos", caminhosParaAdicionarCaminho);
                 intent.putExtras(b);
                 startActivity(intent);

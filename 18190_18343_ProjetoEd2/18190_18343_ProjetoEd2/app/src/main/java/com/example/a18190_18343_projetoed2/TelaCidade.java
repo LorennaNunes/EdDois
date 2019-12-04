@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -44,42 +45,48 @@ public class TelaCidade extends AppCompatActivity {
         btnAdicionar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                boolean pode = true;
                 //verifica se todos os campos foram preenchidos
                 if(coordX.getText().equals("")|| coordY.getText().equals("")||txtNomeCidade.getText().equals(""))
-                    Toast.makeText(getApplicationContext(),"Informe os dados necessários", Toast.LENGTH_SHORT);
+                    Toast.makeText(TelaCidade.this,"Informe os dados necessários", Toast.LENGTH_SHORT).show();
 
                 for(String  nome : nomes) // caso a cidade já exista
-                    if(nome.equals(txtNomeCidade.getText().toString())) {
-
-
-                        Toast.makeText(getApplicationContext(), "Cidade já existe", Toast.LENGTH_SHORT);
-                        return;
+                {
+                    if (nome.equals(txtNomeCidade.getText().toString())) {
+                        pode = false;
+                        break;
                     }
+                }
+                if(!pode)
+                    Toast.makeText(TelaCidade.this, "Cidade já existe", Toast.LENGTH_SHORT).show();
+                else{
+                    String ul = "";
+                    if (ultimo <= 9)
+                        ul = "0" + ultimo;
+                    else
+                        ul = ultimo + "";
+                    int qtdFaltaNome = 16 - txtNomeCidade.getText().toString().length();
+                    String nome = txtNomeCidade.getText().toString();
+                    int qtdFaltaCordx = 5 - coordX.getText().toString().length();
+                    int qtdFaltaCordy = 6 - coordY.getText().toString().length();
+                    String cordx = coordX.getText().toString();
+                    String cordy = coordY.getText().toString();
+                    for (int i = 0; i < qtdFaltaNome; i++)
+                        nome = nome + " ";
+                    for (int i = 0; i < qtdFaltaCordx; i++)
+                        cordx = " " + cordx;
+                    for (int i = 0; i < qtdFaltaCordy; i++)
+                        cordy = " " + cordy;
+                    try {
+                        OutputStreamWriter writer = new OutputStreamWriter(openFileOutput("Cidades.txt", Context.MODE_APPEND)); // abre o arquivo interno de cidades
+                        writer.append(ul + nome + cordx + cordy + "\n"); // adiciona a cidade formatada
+                        writer.flush();
+                        writer.close();
+                        Toast.makeText(TelaCidade.this, "Cidade criada", Toast.LENGTH_LONG).show(); // avisa que a cidade foi adicionada
 
-                String ul = "";
-                if(ultimo <= 9)
-                    ul = "0" + ultimo;
-                else
-                    ul = ultimo+"";
-                int qtdFaltaNome = 16 - txtNomeCidade.getText().toString().length();
-                String nome = txtNomeCidade.getText().toString();
-                int qtdFaltaCordx = 5 -coordX.getText().toString().length();
-                int qtdFaltaCordy = 6 -coordY.getText().toString().length();
-                String cordx = coordX.getText().toString();
-                String cordy = coordY.getText().toString();
-                for(int i=0; i<qtdFaltaNome; i++)
-                    nome = nome+ " ";
-                for(int i = 0; i < qtdFaltaCordx; i++)
-                    cordx = " " + cordx;
-                for(int i = 0; i < qtdFaltaCordy; i++)
-                    cordy = " " + cordy;
-                try {
-                    OutputStreamWriter writer = new OutputStreamWriter(openFileOutput("Cidades.txt", Context.MODE_APPEND));
-                    writer.append(ul+ nome + cordx + cordy + "\n");
-                    writer.flush();
-                    writer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });

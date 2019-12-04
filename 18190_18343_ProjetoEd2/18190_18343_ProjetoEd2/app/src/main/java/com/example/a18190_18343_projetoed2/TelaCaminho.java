@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Canvas;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -54,50 +55,53 @@ public class TelaCaminho extends AppCompatActivity {
         btnAdicionar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                boolean pode = true;
                 //verifica se todos os campos foram preenchidos
-                if(txtTempo.getText().equals("")||txtDistancia.getText().equals(""))
-                    Toast.makeText(getApplicationContext(),"Informe todos os campos",Toast.LENGTH_SHORT);
-                //verifica se as cidades informadas são iguais
-                else if(spinnerDe.getSelectedItem().equals(spinnerPara.getSelectedItem()))
-                    Toast.makeText(getApplicationContext(), "Precisa-se de cidades diferentes para criar um novo caminho", Toast.LENGTH_LONG);
-                for(String caminho : caminhos)
-                {
+                if (txtTempo.getText().equals("") || txtDistancia.getText().equals("") || txtTempo.getText().equals("0") || txtDistancia.getText().equals("0"))
+                    Toast.makeText(TelaCaminho.this, "Informe todos os campos com valore diferentes de 0", Toast.LENGTH_SHORT).show();
+                    //verifica se as cidades informadas são iguais
+                else if (spinnerDe.getSelectedItem().equals(spinnerPara.getSelectedItem()))
+                    Toast.makeText(TelaCaminho.this, "Precisa-se de cidades diferentes para criar um novo caminho", Toast.LENGTH_LONG).show();
+                for (String caminho : caminhos) {
                     String[] x = caminho.split("/");
-                    if(x[0].equals(spinnerDe.getSelectedItem()) && x[1].equals(spinnerPara.getSelectedItem()));
+                    if (x[0].equals(spinnerDe.getSelectedItem()) && x[1].equals(spinnerPara.getSelectedItem()))
                     {
-                        Toast.makeText(getApplicationContext(), "Caminho já existe", Toast.LENGTH_LONG);
-                        return;
+                        Toast.makeText(TelaCaminho.this, "Caminho já existe", Toast.LENGTH_LONG).show();
+                        pode = false;
                     }
                 }
+                if (pode) {
 
-                String nomeOrigem = spinnerDe.getSelectedItem().toString();
-                String nomeDestino = spinnerPara.getSelectedItem().toString();
-                String distancia = txtDistancia.getText().toString();
-                String tempo = txtTempo.getText().toString();
-                int qtdFaltaOrigem = 15 - nomeOrigem.length();
-                int qtdFaltaDestino = 15 - nomeDestino.length();
-                int qtdFaltaDistancia = 5 - distancia.length();
-                int qtdFaltaTempo = 5 - tempo.length();
-                for(int i=0; i<qtdFaltaOrigem; i++)
-                    nomeOrigem = nomeOrigem + " ";
-                for(int i = 0; i < qtdFaltaDestino; i++)
-                    nomeDestino = " " + nomeDestino;
-                for(int i = 0; i < qtdFaltaDistancia; i++)
-                    distancia = " " + distancia;
+                    String nomeOrigem = spinnerDe.getSelectedItem().toString();
+                    String nomeDestino = spinnerPara.getSelectedItem().toString();
+                    String distancia = txtDistancia.getText().toString();
+                    String tempo = txtTempo.getText().toString();
+                    int qtdFaltaOrigem = 15 - nomeOrigem.length();
+                    int qtdFaltaDestino = 15 - nomeDestino.length();
+                    int qtdFaltaDistancia = 5 - distancia.length();
+                    int qtdFaltaTempo = 5 - tempo.length();
+                    for (int i = 0; i < qtdFaltaOrigem; i++)
+                        nomeOrigem = nomeOrigem + " ";
+                    for (int i = 0; i < qtdFaltaDestino; i++)
+                        nomeDestino = " " + nomeDestino;
+                    for (int i = 0; i < qtdFaltaDistancia; i++)
+                        distancia = " " + distancia;
 
-                for(int i = 0; i < qtdFaltaTempo; i++)
-                    tempo = " " + tempo;
-                try {
-                    OutputStreamWriter writer = new OutputStreamWriter(openFileOutput("GrafoTremEspanhaPortugal.txt", Context.MODE_APPEND));
-                    //String teste = String.format(Locale.FRANCE, "%-15s%-15s%-4s %-4s", nomeOrigem, nomeDestino, distancia + "", tempo);
-                    writer.append(nomeOrigem + nomeDestino + distancia + tempo+ "\n");
-                   // writer.append(teste+"\n");
-                    writer.flush();
-                    writer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    for (int i = 0; i < qtdFaltaTempo; i++)
+                        tempo = " " + tempo;
+                    try {
+                        OutputStreamWriter writer = new OutputStreamWriter(openFileOutput("GrafoTremEspanhaPortugal.txt", Context.MODE_APPEND)); // abre o arquivo interno de caminho
+                        writer.append(nomeOrigem + nomeDestino + distancia + tempo + "\n"); // adiciona o novo caminho formatado
+                        writer.flush();
+                        writer.close();
+                        Toast.makeText(TelaCaminho.this, "Caminho adicionado", Toast.LENGTH_LONG).show(); // avisa que o caminho foi adicionado
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
+
         });
 
         //caso o usuário selecione o botão que volta para a tela principal
