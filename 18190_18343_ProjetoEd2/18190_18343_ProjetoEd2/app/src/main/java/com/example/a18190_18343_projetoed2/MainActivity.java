@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
         p.setColor(Color.RED);
 
         p.setStyle(Paint.Style.STROKE);
-        p.setStrokeWidth(5f);
+        p.setStrokeWidth(10f);
         workingBitmap = Bitmap.createBitmap(bitmapO);
         mutableBitmap = workingBitmap.copy(Bitmap.Config.ARGB_8888,true);
 

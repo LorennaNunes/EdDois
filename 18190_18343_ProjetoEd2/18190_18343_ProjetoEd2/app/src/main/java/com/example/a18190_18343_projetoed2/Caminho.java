@@ -66,10 +66,14 @@ public class Caminho {
                 s = linha.substring(inicioDistanciaY).trim();
                 s = s.trim();
                 tempo = Integer.parseInt(s);
-                if(dist)
+                if(dist) {
                     g.newEdge(origem, destino, distancia); // cria uma nova aresta(caminhoe entre cidades) usando a distancia se for o que o usuário pediu
-                else
+                    g.newEdge(destino, origem, distancia);
+                }
+                else {
                     g.newEdge(origem, destino, tempo); // cria uma nova aresta(caminhoe entre cidades) usando a tempo se for o que o usuário pediu
+                    g.newEdge(destino, origem, tempo);
+                }
 
 
                 caminhos.add(origemS + "/"+ destinoS);
