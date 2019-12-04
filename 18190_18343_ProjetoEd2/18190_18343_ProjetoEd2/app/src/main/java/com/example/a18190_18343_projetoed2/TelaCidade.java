@@ -15,7 +15,11 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-
+/**Activity para adicionar uma nova  Cidade
+ * @author Lorenna Nunes 18343 e Maria Eduarda 18190
+ * @version
+ * @since
+ * */
 public class TelaCidade extends AppCompatActivity {
 
     Button btnAdicionar, btnVoltar;
@@ -34,6 +38,7 @@ public class TelaCidade extends AppCompatActivity {
 
 
         final int ultimo = (int)getIntent().getSerializableExtra("ultimoIndice");
+        final ArrayList<String> nomes = (ArrayList<String>)getIntent().getSerializableExtra("cidadesNome");
 
         //quando o botão para adicionar a cidade for selecionado
         btnAdicionar.setOnClickListener(new View.OnClickListener() {
@@ -42,12 +47,14 @@ public class TelaCidade extends AppCompatActivity {
                 //verifica se todos os campos foram preenchidos
                 if(coordX.getText().equals("")|| coordY.getText().equals("")||txtNomeCidade.getText().equals(""))
                     Toast.makeText(getApplicationContext(),"Informe os dados necessários", Toast.LENGTH_SHORT);
-                // trocar ponto para virgula
 
-               // coordY = coordY.getText().replace(coordY,".",",");
-                //coordY = coordY.replaceAll(",", ".");
-                //minhaVariavelDouble = Double.parseDouble(minhaVariavelString);
-                //coordY = coordY.replace
+                for(String  nome : nomes) // caso a cidade já exista
+                    if(nome.equals(txtNomeCidade.getText().toString())) {
+
+
+                        Toast.makeText(getApplicationContext(), "Cidade já existe", Toast.LENGTH_SHORT);
+                        return;
+                    }
 
                 String ul = "";
                 if(ultimo <= 9)

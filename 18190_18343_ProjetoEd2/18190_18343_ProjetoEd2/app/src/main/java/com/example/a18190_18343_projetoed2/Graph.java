@@ -18,17 +18,6 @@ public class Graph
             vertice = vp;
         }
     }
-
-    class Time
-    {
-        public int time;
-        public int vertice;
-        public Time(int vp, int d)
-        {
-            time = d;
-            vertice = vp;
-        }
-    }
     class Vertice
     {
         public boolean isVisited;

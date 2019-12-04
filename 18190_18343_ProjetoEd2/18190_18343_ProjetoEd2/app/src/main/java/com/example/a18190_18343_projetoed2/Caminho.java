@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 /**Classe para objeto do tipo Caminho, onde serão contidos os caminhos entre uma cidade origem e uma cidade destino
- * @author Lorenna Nunes e Maria Eduarda
+ * @author Lorenna Nunes 18343 e Maria Eduarda 18190
  * @version
  * @since
  * */
@@ -37,9 +37,8 @@ public class Caminho {
 
     /** Método que cria a matriz de adjacência
      */
-    public void CriarAdjacencias(BucketHash bucket, BufferedReader br, Graph g, boolean dist){
+    public void CriarAdjacencias(BucketHash bucket, BufferedReader br, Graph g, ArrayList<String> caminhos, boolean dist){
         int origem;
-       // int distancia;
         int destino;
         int distancia;
         int tempo;
@@ -52,11 +51,13 @@ public class Caminho {
             while (linha != null) {
                 String s = linha.substring(inicioOrigem, inicioDestino);
                 s = s.trim();
+                String origemS = s;
                 origem = bucket.data[(bucket.Hash(s))].getFirst().data.indiceCidade;
 
 
                 s = linha.substring(inicioDestino, inicioDistanciaX).trim();
                 s = s.trim();
+                String destinoS = s;
                 destino = bucket.data[(bucket.Hash(s))].getFirst().data.indiceCidade;
                 s = linha.substring(inicioDistanciaX, inicioDistanciaY).trim();
                 s = s.trim();
@@ -66,10 +67,12 @@ public class Caminho {
                 s = s.trim();
                 tempo = Integer.parseInt(s);
                 if(dist)
-                    g.newEdge(origem, destino, distancia);
+                    g.newEdge(origem, destino, distancia); // cria uma nova aresta(caminhoe entre cidades) usando a distancia se for o que o usuário pediu
                 else
-                    g.newEdge(origem, destino, tempo);
+                    g.newEdge(origem, destino, tempo); // cria uma nova aresta(caminhoe entre cidades) usando a tempo se for o que o usuário pediu
 
+
+                caminhos.add(origemS + "/"+ destinoS);
                 linha = br.readLine();
             }
         }

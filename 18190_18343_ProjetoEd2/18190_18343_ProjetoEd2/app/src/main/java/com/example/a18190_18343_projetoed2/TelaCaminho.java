@@ -22,7 +22,11 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Locale;
-
+/**Activity para adicionar um novo caminho
+ * @author Lorenna Nunes 18343 e Maria Eduarda 18190
+ * @version
+ * @since
+ * */
 public class TelaCaminho extends AppCompatActivity {
 
     TextView txtDistancia, txtTempo;
@@ -39,6 +43,7 @@ public class TelaCaminho extends AppCompatActivity {
         btnAdicionar = (Button)findViewById(R.id.btnAddCaminho);
         btnVoltar = (Button)findViewById(R.id.btnVoltar);
         ArrayList<String> nomesCidades = (ArrayList<String>)getIntent().getSerializableExtra("cidadesNome");
+        final ArrayList<String> caminhos = (ArrayList<String>)getIntent().getSerializableExtra("caminhos");
         //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.cbDe,android.R.layout.simple_spinner_item);
         ArrayAdapter<String> adapter = new  ArrayAdapter(this,android.R.layout.simple_spinner_item, nomesCidades);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -55,6 +60,16 @@ public class TelaCaminho extends AppCompatActivity {
                 //verifica se as cidades informadas são iguais
                 else if(spinnerDe.getSelectedItem().equals(spinnerPara.getSelectedItem()))
                     Toast.makeText(getApplicationContext(), "Precisa-se de cidades diferentes para criar um novo caminho", Toast.LENGTH_LONG);
+                for(String caminho : caminhos)
+                {
+                    String[] x = caminho.split("/");
+                    if(x[0].equals(spinnerDe.getSelectedItem()) && x[1].equals(spinnerPara.getSelectedItem()));
+                    {
+                        Toast.makeText(getApplicationContext(), "Caminho já existe", Toast.LENGTH_LONG);
+                        return;
+                    }
+                }
+
                 String nomeOrigem = spinnerDe.getSelectedItem().toString();
                 String nomeDestino = spinnerPara.getSelectedItem().toString();
                 String distancia = txtDistancia.getText().toString();

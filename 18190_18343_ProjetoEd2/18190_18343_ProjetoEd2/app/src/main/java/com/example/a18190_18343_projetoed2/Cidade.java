@@ -14,7 +14,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 /**Classe para objeto do tipo Cidade, onde serão contidos as cidades
- * @author Lorenna Nunes e Maria Eduarda
+ * @author Lorenna Nunes 18343 e Maria Eduarda 18190
  * @version
  * @since
  * */
