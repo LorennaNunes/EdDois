@@ -31,7 +31,7 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    Button btnBuscar, btnNovaCidade, btnNovoCaminho;
+    Button btnBuscar, btnNovaCidade, btnNovoCaminho, btnCriar;
     EditText dist_temp;
     Cidade cidade;
     Caminho caminhos;
@@ -54,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         btnBuscar = (Button)findViewById(R.id.btnBuscar);
         btnNovaCidade = (Button)findViewById(R.id.btnNovaCidade);
         btnNovoCaminho = (Button)findViewById(R.id.btnNovoCaminho);
+        btnCriar = findViewById(R.id.btnCriarArquivos);
+
         dist_temp = (EditText) findViewById(R.id.txtDistTemp);
         spinnerDe = (Spinner) findViewById(R.id.spinnerDe);
         spinnerPara = (Spinner) findViewById(R.id.spinnerPara);
@@ -71,6 +73,20 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnCriar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    escreverArquivoInterno();
+                    Cidades();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
+        Toast.makeText(this, "É necessário recriar os arquivos na inicialização do programa em um novo emulador!", Toast.LENGTH_LONG).show();
         BitmapFactory.Options myoptions = new BitmapFactory.Options();
         myoptions.inScaled = true;
         myoptions.inPreferredConfig = Bitmap.Config.ARGB_8888;
@@ -147,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
             BufferedReader br = new BufferedReader(new InputStreamReader(openFileInput("Cidades.txt")));
             linha = br.readLine();
 
+            nomesCidades = new ArrayList<>();
             while (linha != null) {
                 String s = linha.substring(inicioIndice, tamanhoIndice);
                 s = s.trim();
@@ -207,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
                 //criamos sua matriz de adjacência
                 caminhos.CriarAdjacencias(listaCidades, br, grafo, false);
 
-            int o = listaCidades.data[(listaCidades.Hash(origem))].getFirst().data.indiceCidade;
+            int o = listaCidades.data[(listaCidades.Hash(origem))].getFirst().data.indiceCidade; // define
             int d = listaCidades.data[(listaCidades.Hash(destino))].getFirst().data.indiceCidade;
 
             String menorCaminho = grafo.Caminho(o,d);
@@ -248,7 +265,7 @@ public class MainActivity extends AppCompatActivity {
         BufferedReader br2 = null;
         try {
 
-            OutputStreamWriter writer = new OutputStreamWriter(openFileOutput("GrafoTremEspanhaPortugal.txt", Context.MODE_PRIVATE));
+            OutputStreamWriter writer = new OutputStreamWriter(openFileOutput("GrafoTremEspanhaPortugal.txt", Context.MODE_PRIVATE), "UTF-8");
             String linha;
             br = new BufferedReader(new InputStreamReader(getAssets().open("GrafoTremEspanhaPortugal.txt"), "UTF-8"));
 

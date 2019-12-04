@@ -49,12 +49,17 @@ public class TelaCidade extends AppCompatActivity {
                 //minhaVariavelDouble = Double.parseDouble(minhaVariavelString);
                 //coordY = coordY.replace
 
+                String ul = "";
+                if(ultimo <= 9)
+                    ul = "0" + ultimo;
+                else
+                    ul = ultimo+"";
                 int qtdFaltaNome = 16 - txtNomeCidade.getText().toString().length();
                 String nome = txtNomeCidade.getText().toString();
-                int qtdFaltaCordx = 5 -coordX.toString().length();
-                int qtdFaltaCordy = 6 -coordY.toString().length();
-                String cordx = coordX.toString();
-                String cordy = coordY.toString();
+                int qtdFaltaCordx = 5 -coordX.getText().toString().length();
+                int qtdFaltaCordy = 6 -coordY.getText().toString().length();
+                String cordx = coordX.getText().toString();
+                String cordy = coordY.getText().toString();
                 for(int i=0; i<qtdFaltaNome; i++)
                     nome = nome+ " ";
                 for(int i = 0; i < qtdFaltaCordx; i++)
@@ -63,7 +68,7 @@ public class TelaCidade extends AppCompatActivity {
                     cordy = " " + cordy;
                 try {
                     OutputStreamWriter writer = new OutputStreamWriter(openFileOutput("Cidades.txt", Context.MODE_APPEND));
-                    writer.append(ultimo + ""+ nome + cordx + cordy + "\n");
+                    writer.append(ul+ nome + cordx + cordy + "\n");
                     writer.flush();
                     writer.close();
                 } catch (IOException e) {
